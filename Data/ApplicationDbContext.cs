@@ -10,5 +10,6 @@ namespace authorRESTAPI.Data
         }
             public DbSet<Author> Authors { get; set; }
             public DbSet<Course> Courses { get; set; }
+            public DbSet<Enrollment> Enrollments { get; set; }
     }
 }

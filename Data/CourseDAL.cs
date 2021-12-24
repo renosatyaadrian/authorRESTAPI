@@ -38,6 +38,15 @@ namespace authorRESTAPI.Data
             return results;
         }
 
+        public async Task<IEnumerable<Course>> GetAllCourseByAuthor(int id)
+        {
+            var results = await (from courses in _db.Courses
+                                join enrollment in _db.Enrollments on courses.CourseID equals enrollment.CourseID
+                                join author in _db.Authors on enrollment.AuthorID equals author.ID where author.ID == id select courses).ToListAsync();
+
+            return results;
+        }
+
         public async Task<Course> GetById(string id)
         {
             var result = await (from c in _db.Courses

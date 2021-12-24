@@ -44,6 +44,22 @@ namespace authorRESTAPI.Data
             }
 
             context.SaveChanges();
+
+            var enrollments = new Enrollment[]
+            {
+                new Enrollment{AuthorID=1,CourseID=1},
+                new Enrollment{AuthorID=1,CourseID=3},
+                new Enrollment{AuthorID=2,CourseID=1},
+                new Enrollment{AuthorID=2,CourseID=2},
+                new Enrollment{AuthorID=2,CourseID=3},
+                new Enrollment{AuthorID=3,CourseID=1},
+            };
+
+            foreach(var e in enrollments)
+            {
+                context.Enrollments.Add(e);
+            }
+            context.SaveChanges();
         }
     }
 }

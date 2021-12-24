@@ -8,6 +8,6 @@ namespace authorRESTAPI.Data
 {
     public interface ICourse:ICrud<Course>
     {
-        
+        Task<IEnumerable<Course>> GetAllCourseByAuthor(int id);
     }
 }

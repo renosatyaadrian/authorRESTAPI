@@ -12,8 +12,11 @@ namespace authorRESTAPI.Profiles
     {
         public AuthorProfile()
         {
+            var dateNow = DateTime.Now;
             CreateMap<Author, AuthorDto>()
-                .ForMember(dest=>dest.Name, opt=>opt.MapFrom(src=>$"{src.FirstName} {src.LastName}"));
+                .ForMember(dest=>dest.Name, opt=>opt.MapFrom(src=>$"{src.FirstName} {src.LastName}"))
+                .ForMember(dest=>dest.Age, opt=>opt.MapFrom(src=>dateNow.Year-src.DateOfBirth.Year));
+
             
             CreateMap<AuthorForUpdateDto, Author>();
         }

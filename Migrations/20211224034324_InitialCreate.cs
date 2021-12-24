@@ -40,7 +40,7 @@ namespace authorRESTAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Enrollment",
+                name: "Enrollments",
                 columns: table => new
                 {
                     EnrollmentID = table.Column<int>(type: "int", nullable: false)
@@ -50,15 +50,15 @@ namespace authorRESTAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Enrollment", x => x.EnrollmentID);
+                    table.PrimaryKey("PK_Enrollments", x => x.EnrollmentID);
                     table.ForeignKey(
-                        name: "FK_Enrollment_Authors_AuthorID",
+                        name: "FK_Enrollments_Authors_AuthorID",
                         column: x => x.AuthorID,
                         principalTable: "Authors",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Enrollment_Courses_CourseID",
+                        name: "FK_Enrollments_Courses_CourseID",
                         column: x => x.CourseID,
                         principalTable: "Courses",
                         principalColumn: "CourseID",
@@ -66,20 +66,20 @@ namespace authorRESTAPI.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Enrollment_AuthorID",
-                table: "Enrollment",
+                name: "IX_Enrollments_AuthorID",
+                table: "Enrollments",
                 column: "AuthorID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Enrollment_CourseID",
-                table: "Enrollment",
+                name: "IX_Enrollments_CourseID",
+                table: "Enrollments",
                 column: "CourseID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Enrollment");
+                name: "Enrollments");
 
             migrationBuilder.DropTable(
                 name: "Authors");

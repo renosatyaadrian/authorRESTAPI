@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using authorRESTAPI.Data;
+using authorRESTAPI.Dtos;
 using authorRESTAPI.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace authorRESTAPI.Controllers
@@ -13,37 +15,46 @@ namespace authorRESTAPI.Controllers
     public class AuthorsController : ControllerBase
     {
         private IAuthor _author;
+        private IMapper _mapper;
 
-        public AuthorsController(IAuthor author)
+        public AuthorsController(IAuthor author, IMapper mapper)
         {
-            _author = author;
+            _author = author ?? throw new ArgumentNullException(nameof(author));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         // GET: api/<CoursesController>
        
         [HttpGet]
-        public async Task<IEnumerable<Author>> Get()
+        public async Task<ActionResult<IEnumerable<AuthorDto>>> Get()
         {
             var results = await _author.GetAll();
-            return results;
+            var dtos = _mapper.Map<IEnumerable<AuthorDto>>(results);
+            return Ok(dtos);
         }
 
         // GET api/<CoursesController>/5
         [HttpGet("{id}")]
-        public async Task<Author> Get(int id)
+        public async Task<ActionResult<AuthorDto>> Get(int id)
         {
             var result = await _author.GetById(id.ToString());
-            return result;
+            if(result ==null)
+            {
+                return NotFound();
+            }
+            var dto = _mapper.Map<AuthorDto>(result);
+            return Ok(dto);
         }
 
         // POST api/<CoursesController>
         [HttpPost]
-        public async Task<ActionResult<Author>> Post([FromBody] Author author)
+        public async Task<ActionResult<AuthorDto>> Post([FromBody] AuthorForUpdateDto author)
         {
             try
             {
-                var result = await _author.Insert(author);
-                return Ok(result);  
+                var dto = _mapper.Map<Author>(author);
+                var result = await _author.Insert(dto);
+                return Ok(_mapper.Map<AuthorDto>(result));    
             }
             catch (Exception ex)
             {
@@ -53,12 +64,14 @@ namespace authorRESTAPI.Controllers
 
         // PUT api/<CoursesController>/5
         [HttpPut("{id}")]
-        public async Task<ActionResult<Author>> Put(int id, [FromBody] Author author)
+        public async Task<ActionResult<AuthorDto>> Put(int id, [FromBody] AuthorForUpdateDto author)
         {
             try
             {
-                var result = await _author.Update(id.ToString(), author);
-                return Ok(result);
+                var dto = _mapper.Map<Author>(author);
+                var result = await _author.Update(id.ToString(), dto);
+                var resultDto = _mapper.Map<AuthorDto>(result);
+                return Ok(resultDto);  
             }
             catch (Exception ex)
             {
@@ -68,7 +81,7 @@ namespace authorRESTAPI.Controllers
 
         // DELETE api/<CoursesController>/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Author>> Delete(int id)
+        public async Task<ActionResult<AuthorDto>> Delete(int id)
         {
             try
             {

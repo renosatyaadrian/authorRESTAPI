@@ -12,7 +12,7 @@ using authorRESTAPI.Data;
 namespace authorRESTAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211224030617_InitialCreate")]
+    [Migration("20211224034324_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -93,7 +93,7 @@ namespace authorRESTAPI.Migrations
 
                     b.HasIndex("CourseID");
 
-                    b.ToTable("Enrollment");
+                    b.ToTable("Enrollments");
                 });
 
             modelBuilder.Entity("authorRESTAPI.Models.Enrollment", b =>

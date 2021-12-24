@@ -91,7 +91,7 @@ namespace authorRESTAPI.Migrations
 
                     b.HasIndex("CourseID");
 
-                    b.ToTable("Enrollment");
+                    b.ToTable("Enrollments");
                 });
 
             modelBuilder.Entity("authorRESTAPI.Models.Enrollment", b =>
